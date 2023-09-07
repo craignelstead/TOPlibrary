@@ -1,3 +1,7 @@
+const shelf1 = document.getElementById('topshelf');
+const shelf2 = document.getElementById('midshelf');
+const shelf3 = document.getElementById('bottomshelf');
+
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -18,5 +22,8 @@ function Book(title, author, pages, read) {
 // }
 
 function addBookToLibrary() {
-    
+    /*
+    Take form info and create new object with it
+    Add new book to DOM
+    */
 }
