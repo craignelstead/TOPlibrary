@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="allcontentcontainer">
@@ -21,6 +24,29 @@
                     <p class="title">Title 2</p>
                     <p class="author">Author 2</p>
                 </div>
+                <div class="book">
+                    <p class="title">Title 3</p>
+                    <p class="author">Author 3</p>
+                </div>
+                <div class="book">
+                    <p class="title">Title 4</p>
+                    <p class="author">Author 4</p>
+                </div>
+                <div class="book">
+                    <p class="title">Title 5</p>
+                    <p class="author">Author 5</p>
+                </div>
+                <div class="book">
+                    <p class="title">Title 6</p>
+                    <p class="author">Author 6</p>
+                </div>
+                <div class="book">
+                    <p class="title">Title 7</p>
+                    <p class="author">Author 7</p>
+                </div>
+                <div class="book" id="bookshelfbtn">
+                    <img src="./images/book-plus-multiple.svg" alt="add a book" id="addicon">
+                </div>
             </div>
             <div id="midshelf" class="shelf">
 
@@ -31,26 +57,30 @@
         </div>
         <div id="sidebar">
             <form action="" id="newbookform" method="post">
-                <button name="newbook" id="newbook">New Book</button>
+                <button name="editbook" id="editbook">Edit Book</button>
                 <button name="addtoshelf" id="addtoshelf">Add to Shelf</button>
+                <button name="cancel" id="cancel">Cancel</button>
                 <fieldset id="notecard">
                     <div class="notecardhead">
-                        <h2 id="notecardheadtitle">Title</h2>
+                        <h2 id="notecardheadtitle">Select or add a book to get started</h2>
                     </div>
                     <div class="notecardbody">
                         <label for="title">Title:</label>
-                        <input type="text" name="title" id="title">
+                        <input type="text" name="title" id="title" 
+                            required min="1" max="20">
                     </div>
                     <div class="notecardbody">
                         <label for="title">Author:</label>
-                        <input type="text" name="author" id="author">
+                        <input type="text" name="author" id="author" 
+                            required min="1" max="20">
                     </div>
                     <div class="notecardbody">
                         <label for="title">Pages:</label>
-                        <input type="number" name="pages" id="pages">
+                        <input type="number" name="pages" id="pages" 
+                            required min="1">
                     </div>
                     <div class="notecardbody">
-                        <label for="title">Have read</label>
+                        <label for="title">Have read:</label>
                         <input type="checkbox" name="heaveread" id="haveread">
                     </div>
                     <div class="notecardbody"></div>
