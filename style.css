@@ -201,3 +201,7 @@ body {
     border: solid 1px lightgray;
     cursor: pointer;
 }
+
+.hiddenclass {
+    visibility: hidden;
+}
