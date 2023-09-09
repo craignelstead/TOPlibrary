@@ -85,10 +85,11 @@ Book.prototype.displayBook = function() {
         const booksOnShelfNL = document.getElementsByClassName('book');
         const booksOnShelfArr = Array.from(booksOnShelfNL);
         let bookCount = booksOnShelfArr.length;
-        console.log(bookCount);
 
         //Create Book Container div
         const bookDiv = document.createElement('div');
+        //Give the book dataset relative to spot in array
+        bookDiv.setAttribute('data-bookNum', bookCount -1);
         bookDiv.classList.add('book');
 
         //Create Title p
@@ -103,7 +104,11 @@ Book.prototype.displayBook = function() {
         bookAuthor.textContent = `${this.author}`;
         bookDiv.appendChild(bookAuthor);
 
-        //shelf1.insertBefore(bookDiv, bookAddBtn);
+        //Add event listener to book
+        //NEED TO ADJUST DATA NUM attribute
+        bookDiv.addEventListener('click', function(event) {
+            console.log(this.getAttribute('data-bookNum'));
+        });
 
         //Determine which shelf to add book to
         if (bookCount >= 0 && bookCount < 8) {
