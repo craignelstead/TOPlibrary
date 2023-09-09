@@ -107,7 +107,11 @@ Book.prototype.displayBook = function() {
         //Add event listener to book
         //NEED TO ADJUST DATA NUM attribute
         bookDiv.addEventListener('click', function(event) {
-            console.log(this.getAttribute('data-bookNum'));
+            toggleForm();
+            const bookNum = this.getAttribute('data-bookNum');
+            console.log(bookNum);
+
+            cardTitle.textContent = myLibrary[bookNum].title;
         });
 
         //Determine which shelf to add book to
@@ -131,7 +135,7 @@ Book.prototype.displayBook = function() {
 
 //Display book info on card
 Book.prototype.displayCardInfo = function() {
-
+    
 }
 
 myLibrary.forEach(function(book) {book.displayBook()});
