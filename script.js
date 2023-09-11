@@ -20,6 +20,11 @@ const valAuthor = document.getElementById('author');
 const valPages = document.getElementById('pages');
 const valHaveRead = document.getElementById('haveread');
 
+//Form validation messages
+const invalidTitle = document.getElementById('titlemessage');
+const invalidAuthor = document.getElementById('authormessage');
+const invalidPages = document.getElementById('pagesmessage');
+
 //Array of books
 const myLibrary = [];
 
@@ -62,12 +67,11 @@ function Book(title, author, pages, read) {
 //let bookCount = booksOnShelfArr.length;
 
 const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', 295, true);
-const book2 = new Book('The Very Hungry Caterpillar', 'Eric Carle', 32, true);
-const book3 = new Book('1984', 'George Orwell', 328, true);
-const book4 = new Book('Life of Pi', 'Yann Martel', 281, false);
-const book5 = new Book('The Help', 'Kathryn Stockett', 371, false);
-const book6 = new Book('The Street', 'Ann Petry', 274, false);
-const book7 = new Book('The Sweetness of Water', 'Nathan Harris', 408, false);
+const book2 = new Book('1984', 'George Orwell', 328, true);
+const book3 = new Book('Life of Pi', 'Yann Martel', 281, false);
+const book4 = new Book('The Help', 'Kathryn Stockett', 371, false);
+const book5 = new Book('The Street', 'Ann Petry', 274, false);
+const book6 = new Book('The Sweetness of Water', 'Nathan Harris', 408, false);
 
 listenToButtons();
 //Add event listeners
@@ -81,6 +85,48 @@ function listenToButtons() {
 function addBookToLibrary(event) {
     //Prevent submit default action
     event.preventDefault();
+
+    let invalidInput = false;
+
+    //Validate title input
+    if (valTitle.value.length === 0 || valTitle.value.length >= 21) {
+        valTitle.classList.add('invalid');
+        invalidTitle.classList.remove('hiddenclass');
+        invalidTitle.textContent = 'Book title must be between 1 and 20 characters.';
+        invalidInput = true;
+    }
+    else {
+        valTitle.classList.remove('invalid');
+        invalidTitle.classList.add('hiddenclass');
+    }
+
+    //Validate author input
+    if (valAuthor.value.length === 0 || valAuthor.value.length >= 21) {
+        valAuthor.classList.add('invalid');
+        invalidAuthor.classList.remove('hiddenclass');
+        invalidAuthor.textContent = 'Author name must be between 1 and 20 characters.';
+        invalidInput = true;
+    }
+    else {
+        valAuthor.classList.remove('invalid');
+        invalidAuthor.classList.add('hiddenclass');
+    }
+
+    //Validate pages input
+    if (valPages.value.length <1) {
+        valPages.classList.add('invalid');
+        invalidPages.classList.remove('hiddenclass');
+        invalidPages.textContent = 'Page number must be greater than 0.';
+        invalidInput = true;
+    }
+    else {
+        valPages.classList.remove('invalid');
+        invalidPages.classList.add('hiddenclass');
+    }
+
+    if (invalidInput) {
+        return;
+    }
 
     //Create new book
     const newBook = new Book(valTitle.value, valAuthor.value, valPages.value, 
@@ -124,6 +170,14 @@ Book.prototype.displayBook = function() {
         //Add event listener to book
         bookDiv.addEventListener('click', function(event) {
             showForm();
+
+            //Remove selectedBook class from all books
+            const allBooksNL = document.getElementsByClassName('book');
+            const allBooks = Array.from(allBooksNL);
+            allBooks.forEach(book => book.classList.remove('selectedBook'));
+
+            //Add selectedBook class to current selection
+            event.target.classList.add('selectedBook');
             const bookNum = this.getAttribute('data-bookNum');
 
             cardTitle.textContent = myLibrary[bookNum].title;
@@ -176,4 +230,8 @@ function createNewBook() {
     valAuthor.value = '';
     valPages.value = '';
     valHaveRead.checked = false
+}
+
+function doNothing() {
+    //The most useless function in the world
 }
