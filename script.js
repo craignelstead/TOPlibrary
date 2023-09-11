@@ -7,10 +7,8 @@ const shelf3 = document.getElementById('bottomshelf');
 const bookAddBtn = document.getElementById('bookshelfbtn');
 
 //Buttons
-const editBookBtn = document.getElementById('editbook');
 const addToShelfBtn = document.getElementById('addtoshelf');
 const cancelBtn = document.getElementById('cancel');
-const deleteBtn = document.getElementById('delete');
 const bookShelfBtn = document.getElementById('bookshelfbtn');
 
 //Card header
@@ -25,17 +23,30 @@ const valHaveRead = document.getElementById('haveread');
 //Array of books
 const myLibrary = [];
 
-toggleForm();
-//Toggles visibility class on form inputs and labels
-function toggleForm() {
+//Visibility on for form inputs and labels
+function showForm() {
     const labelsNL = document.querySelectorAll('label');
     const inputsNL = document.querySelectorAll('input');
 
     const labels = Array.from(labelsNL);
     const inputs = Array.from(inputsNL);
 
-    labels.forEach((label) => label.classList.toggle('hiddenclass'));
-    inputs.forEach((input) => input.classList.toggle('hiddenclass'));
+    labels.forEach((label) => label.classList.remove('hiddenclass'));
+    inputs.forEach((input) => input.classList.remove('hiddenclass'));
+}
+
+//Set default form visibility to hidden
+hideForm();
+//Visibility on for form inputs and labels
+function hideForm() {
+    const labelsNL = document.querySelectorAll('label');
+    const inputsNL = document.querySelectorAll('input');
+
+    const labels = Array.from(labelsNL);
+    const inputs = Array.from(inputsNL);
+
+    labels.forEach((label) => label.classList.add('hiddenclass'));
+    inputs.forEach((input) => input.classList.add('hiddenclass'));
 }
 
 //Constructor for book
@@ -63,10 +74,8 @@ const book5 = new Book('The Help', 'Kathryn Stockett', 371, false);
 listenToButtons();
 //Add event listeners
 function listenToButtons() {
-    editBookBtn.addEventListener('click', editBook);
     addToShelfBtn.addEventListener('click', addBookToLibrary);
     cancelBtn.addEventListener('click', cancelEdit);
-    deleteBtn.addEventListener('click', deleteBook);
     bookShelfBtn.addEventListener('click', createNewBook);
 }
 
@@ -107,11 +116,14 @@ Book.prototype.displayBook = function() {
         //Add event listener to book
         //NEED TO ADJUST DATA NUM attribute
         bookDiv.addEventListener('click', function(event) {
-            toggleForm();
+            showForm();
             const bookNum = this.getAttribute('data-bookNum');
-            console.log(bookNum);
 
             cardTitle.textContent = myLibrary[bookNum].title;
+            valTitle.value = myLibrary[bookNum].title;
+            valAuthor.value = myLibrary[bookNum].author;
+            valPages.value = myLibrary[bookNum].pages;
+            valHaveRead.checked = myLibrary[bookNum].read;
         });
 
         //Determine which shelf to add book to
@@ -126,32 +138,15 @@ Book.prototype.displayBook = function() {
             shelf3.insertBefore(bookDiv, bookAddBtn);
         }
 
-        // bookCount = myLibrary.length;
-        // console.log(bookCount);
         return;
     }
     console.log(myLibrary.length);
 }
 
-//Display book info on card
-Book.prototype.displayCardInfo = function() {
-    
-}
-
 myLibrary.forEach(function(book) {book.displayBook()});
 
 //
-function editBook() {
-
-}
-
-//
 function cancelEdit() {
-
-}
-
-//
-function deleteBook() {
 
 }
 

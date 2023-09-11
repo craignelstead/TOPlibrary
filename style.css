@@ -185,8 +185,11 @@ body {
 
 .notecardbody input {
     border: solid 1px lightgray;
-    height: 1.2rem;
+    height: 1.5rem;
     width: 400px;
+    padding-bottom: 1px;
+    margin-bottom: 3px;
+    font-size: 1.2rem;
 }
 
 .notecardbody label {
