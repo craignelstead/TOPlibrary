@@ -66,26 +66,34 @@ const book2 = new Book('The Very Hungry Caterpillar', 'Eric Carle', 32, true);
 const book3 = new Book('1984', 'George Orwell', 328, true);
 const book4 = new Book('Life of Pi', 'Yann Martel', 281, false);
 const book5 = new Book('The Help', 'Kathryn Stockett', 371, false);
-// const book6 = new Book('1984', 'George Orwell', 328, true);
-// const book7 = new Book('1984', 'George Orwell', 328, true);
-// const book8 = new Book('1984', 'George Orwell', 328, true);
-// const book9 = new Book('1984', 'George Orwell', 328, true);
+const book6 = new Book('The Street', 'Ann Petry', 274, false);
+const book7 = new Book('The Sweetness of Water', 'Nathan Harris', 408, false);
 
 listenToButtons();
 //Add event listeners
 function listenToButtons() {
     addToShelfBtn.addEventListener('click', addBookToLibrary);
     cancelBtn.addEventListener('click', cancelEdit);
-    bookShelfBtn.addEventListener('click', createNewBook);
+    bookShelfBtn.addEventListener('click', createNewBook, false);
 }
 
 //
-function addBookToLibrary() {
-    /*
-    Validate input
-    Take form info and create new object with it
-    Add new book to DOM before last child
-    */
+function addBookToLibrary(event) {
+    //Prevent submit default action
+    event.preventDefault();
+
+    //Create new book
+    const newBook = new Book(valTitle.value, valAuthor.value, valPages.value, 
+        valHaveRead.checked);
+
+    newBook.displayBook();
+
+    cardTitle.textContent = 'Select or add a book to get started';
+    valTitle.value = '';
+    valAuthor.value = '';
+    valPages.value = '';
+    valHaveRead.checked = false
+    hideForm();
 }
 
 Book.prototype.displayBook = function() {
@@ -114,7 +122,6 @@ Book.prototype.displayBook = function() {
         bookDiv.appendChild(bookAuthor);
 
         //Add event listener to book
-        //NEED TO ADJUST DATA NUM attribute
         bookDiv.addEventListener('click', function(event) {
             showForm();
             const bookNum = this.getAttribute('data-bookNum');
@@ -127,20 +134,31 @@ Book.prototype.displayBook = function() {
         });
 
         //Determine which shelf to add book to
+        //If shelf is full, removes book add btn from that shelf
         if (bookCount >= 0 && bookCount < 8) {
             shelf1.insertBefore(bookDiv, bookAddBtn);
         }
-        else if(bookCount >= 8 && bookCount < 16) {
-            //Need to add something that moves book button to new shelf
+        else if(bookCount === 8) {
+            shelf1.insertBefore(bookDiv, bookAddBtn);
+            shelf2.appendChild(bookAddBtn);
+        }
+        else if(bookCount > 8 && bookCount < 16) {
             shelf2.insertBefore(bookDiv, bookAddBtn);
         }
-        else if(bookCount >= 16 && bookCount < 24) {
+        else if(bookCount === 16) {
+            shelf2.insertBefore(bookDiv, bookAddBtn);
+            shelf3.appendChild(bookAddBtn);
+        }
+        else if(bookCount > 16 && bookCount < 24) {
             shelf3.insertBefore(bookDiv, bookAddBtn);
+        }
+        else {
+            shelf3.insertBefore(bookDiv, bookAddBtn);
+            bookAddBtn.remove();
         }
 
         return;
     }
-    console.log(myLibrary.length);
 }
 
 myLibrary.forEach(function(book) {book.displayBook()});
@@ -152,5 +170,10 @@ function cancelEdit() {
 
 //
 function createNewBook() {
-
+    showForm();
+    cardTitle.textContent = 'Enter New Book Info';
+    valTitle.value = '';
+    valAuthor.value = '';
+    valPages.value = '';
+    valHaveRead.checked = false
 }

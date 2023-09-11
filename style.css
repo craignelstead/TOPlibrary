@@ -90,16 +90,16 @@ body {
 
 #newbookform {
     display: grid;
-    grid-template: 1fr 8fr / 1fr 1fr 1fr 1fr;
+    grid-template: 1fr 8fr / 1fr 1fr;
     grid-template-areas:
-        "addtoshelfbtn editbookbtn cancelbtn deletebtn"
-        "card card card card";
+        "addtoshelfbtn cancelbtn"
+        "card card";
     margin: 25px 0;
     font-family: 'Fasthand', cursive;
     gap: 30px;
 }
 
-#editbook, #addtoshelf, #cancel, #delete {
+#addtoshelf, #cancel {
     height: fit-content;
     width: fit-content;
     box-shadow: 0px 10px 14px -7px #276873;
@@ -119,20 +119,16 @@ body {
     width: 180px;
 }
 
-#editbook:hover, #addtoshelf:hover, #cancel:hover, #delete:hover {
+#addtoshelf:hover, #cancel:hover {
     background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
 	background-color:#408c99;
-}
-
-#delete:hover {
-    background:linear-gradient(to bottom, #e41c0d 5%, #9e0f04 100%);
 }
 
 #addtoshelf:hover {
     background:linear-gradient(to bottom, #52f307 5%, #155e02 100%);
 }
 
-#editbook:active, #addtoshelf:active, #cancel:active #delete:hover {
+#addtoshelf:active, #cancel:active {
     position:relative;
 	top:1px;
 }
