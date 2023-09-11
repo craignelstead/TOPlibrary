@@ -38,6 +38,8 @@ function showForm() {
 
     labels.forEach((label) => label.classList.remove('hiddenclass'));
     inputs.forEach((input) => input.classList.remove('hiddenclass'));
+
+    valTitle.focus();
 }
 
 //Set default form visibility to hidden
@@ -52,6 +54,10 @@ function hideForm() {
 
     labels.forEach((label) => label.classList.add('hiddenclass'));
     inputs.forEach((input) => input.classList.add('hiddenclass'));
+
+    invalidTitle.classList.add('hiddenclass');
+    invalidAuthor.classList.add('hiddenclass');
+    invalidPages.classList.add('hiddenclass');
 }
 
 //Constructor for book
@@ -64,14 +70,13 @@ function Book(title, author, pages, read) {
     myLibrary.push(this);
 }
 
-//let bookCount = booksOnShelfArr.length;
-
+//Default books on shelf
 const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', 295, true);
 const book2 = new Book('1984', 'George Orwell', 328, true);
-const book3 = new Book('Life of Pi', 'Yann Martel', 281, false);
-const book4 = new Book('The Help', 'Kathryn Stockett', 371, false);
-const book5 = new Book('The Street', 'Ann Petry', 274, false);
-const book6 = new Book('The Sweetness of Water', 'Nathan Harris', 408, false);
+const book3 = new Book('Life of Pi', 'Yann Martel', 352, false);
+const book4 = new Book('The Help', 'Kathryn Stockett', 524, false);
+const book5 = new Book('The Street', 'Ann Petry', 435, false);
+const book6 = new Book('The Sweetness of Water', 'Nathan Harris', 368, false);
 
 listenToButtons();
 //Add event listeners
@@ -86,43 +91,9 @@ function addBookToLibrary(event) {
     //Prevent submit default action
     event.preventDefault();
 
-    let invalidInput = false;
+    if (valTitle.classList.contains('hiddenclass')) {return;}
 
-    //Validate title input
-    if (valTitle.value.length === 0 || valTitle.value.length >= 21) {
-        valTitle.classList.add('invalid');
-        invalidTitle.classList.remove('hiddenclass');
-        invalidTitle.textContent = 'Book title must be between 1 and 20 characters.';
-        invalidInput = true;
-    }
-    else {
-        valTitle.classList.remove('invalid');
-        invalidTitle.classList.add('hiddenclass');
-    }
-
-    //Validate author input
-    if (valAuthor.value.length === 0 || valAuthor.value.length >= 21) {
-        valAuthor.classList.add('invalid');
-        invalidAuthor.classList.remove('hiddenclass');
-        invalidAuthor.textContent = 'Author name must be between 1 and 20 characters.';
-        invalidInput = true;
-    }
-    else {
-        valAuthor.classList.remove('invalid');
-        invalidAuthor.classList.add('hiddenclass');
-    }
-
-    //Validate pages input
-    if (valPages.value.length <1) {
-        valPages.classList.add('invalid');
-        invalidPages.classList.remove('hiddenclass');
-        invalidPages.textContent = 'Page number must be greater than 0.';
-        invalidInput = true;
-    }
-    else {
-        valPages.classList.remove('invalid');
-        invalidPages.classList.add('hiddenclass');
-    }
+    let invalidInput = validateInput();
 
     if (invalidInput) {
         return;
@@ -139,6 +110,9 @@ function addBookToLibrary(event) {
     valAuthor.value = '';
     valPages.value = '';
     valHaveRead.checked = false
+
+    bookShelfBtn.classList.remove('bookshelfbtncurrent');
+
     hideForm();
 }
 
@@ -215,16 +189,33 @@ Book.prototype.displayBook = function() {
     }
 }
 
+//Add initial books to shelf
 myLibrary.forEach(function(book) {book.displayBook()});
 
 //
 function cancelEdit() {
+    bookShelfBtn.classList.remove('bookshelfbtncurrent');
+    hideForm();
+    cardTitle.textContent = 'Select or add a book to get started';
 
+    //Remove selectedBook class from all books
+    const allBooksNL = document.getElementsByClassName('book');
+    const allBooks = Array.from(allBooksNL);
+    allBooks.forEach(book => book.classList.remove('selectedBook'));
 }
 
 //
 function createNewBook() {
     showForm();
+
+    //Remove selectedBook class from all books
+    const allBooksNL = document.getElementsByClassName('book');
+    const allBooks = Array.from(allBooksNL);
+    allBooks.forEach(book => book.classList.remove('selectedBook'));
+
+    bookShelfBtn.classList.add('bookshelfbtncurrent');
+
+    //Set blank values for form
     cardTitle.textContent = 'Enter New Book Info';
     valTitle.value = '';
     valAuthor.value = '';
@@ -234,4 +225,47 @@ function createNewBook() {
 
 function doNothing() {
     //The most useless function in the world
+}
+
+//Validate input
+function validateInput() {
+    let invalidInput = false;
+
+    //Validate title input
+    if (valTitle.value.length === 0 || valTitle.value.length > 22) {
+        valTitle.classList.add('invalid');
+        invalidTitle.classList.remove('hiddenclass');
+        invalidTitle.textContent = 'Book title must be between 1 and 22 characters.';
+        invalidInput = true;
+    }
+    else {
+        valTitle.classList.remove('invalid');
+        invalidTitle.classList.add('hiddenclass');
+    }
+
+    //Validate author input
+    if (valAuthor.value.length === 0 || valAuthor.value.length > 22) {
+        valAuthor.classList.add('invalid');
+        invalidAuthor.classList.remove('hiddenclass');
+        invalidAuthor.textContent = 'Author name must be between 1 and 22 characters.';
+        invalidInput = true;
+    }
+    else {
+        valAuthor.classList.remove('invalid');
+        invalidAuthor.classList.add('hiddenclass');
+    }
+
+    //Validate pages input
+    if (valPages.value.length <1) {
+        valPages.classList.add('invalid');
+        invalidPages.classList.remove('hiddenclass');
+        invalidPages.textContent = 'Page number must be greater than 0.';
+        invalidInput = true;
+    }
+    else {
+        valPages.classList.remove('invalid');
+        invalidPages.classList.add('hiddenclass');
+    }
+
+    return invalidInput;
 }

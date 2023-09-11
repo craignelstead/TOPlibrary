@@ -88,18 +88,22 @@ body {
     background-color: rgba(211, 211, 211, 0.2);
 }
 
+#mainshelfcontainer .bookshelfbtncurrent {
+    background-color: rgba(34, 206, 0, 0.3);
+}
+
 #newbookform {
     display: grid;
-    grid-template: 1fr 8fr / 1fr 1fr;
+    grid-template: 1fr 8fr / 1fr 1fr 1fr;
     grid-template-areas:
-        "addtoshelfbtn cancelbtn"
-        "card card";
+        "addtoshelfbtn submitchanges cancelbtn"
+        "card card card";
     margin: 25px 0;
     font-family: 'Fasthand', cursive;
     gap: 30px;
 }
 
-#addtoshelf, #cancel {
+#addtoshelf, #cancel, #submitchanges {
     height: fit-content;
     width: fit-content;
     box-shadow: 0px 10px 14px -7px #276873;
@@ -116,10 +120,11 @@ body {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
     place-self: center;
-    width: 180px;
+    width: 200px;
+    height: 80px;
 }
 
-#addtoshelf:hover, #cancel:hover {
+#addtoshelf:hover, #cancel:hover, #submitchanges:hover {
     background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
 	background-color:#408c99;
 }
@@ -128,13 +133,13 @@ body {
     background:linear-gradient(to bottom, #52f307 5%, #155e02 100%);
 }
 
-#addtoshelf:active, #cancel:active {
+#addtoshelf:active, #cancel:active, #submitchanges:active {
     position:relative;
 	top:1px;
 }
 
-#editbook {
-    grid-area: editbookbtn;
+#submitchanges {
+    grid-area: submitchanges;
 }
 
 #addtoshelf {
