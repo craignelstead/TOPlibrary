@@ -10,6 +10,7 @@ const bookAddBtn = document.getElementById('bookshelfbtn');
 const addToShelfBtn = document.getElementById('addtoshelf');
 const cancelBtn = document.getElementById('cancel');
 const bookShelfBtn = document.getElementById('bookshelfbtn');
+const submitChangesBtn = document.getElementById('submitchanges');
 
 //Card header
 const cardTitle = document.getElementById('notecardheadtitle');
@@ -84,6 +85,7 @@ function listenToButtons() {
     addToShelfBtn.addEventListener('click', addBookToLibrary);
     cancelBtn.addEventListener('click', cancelEdit);
     bookShelfBtn.addEventListener('click', createNewBook, false);
+    submitChangesBtn.addEventListener('click', editBook, false);
 }
 
 //
@@ -150,6 +152,12 @@ Book.prototype.displayBook = function() {
             const allBooks = Array.from(allBooksNL);
             allBooks.forEach(book => book.classList.remove('selectedBook'));
 
+            //Enable submit changes button
+            submitChangesBtn.disabled = false;
+            addToShelfBtn.disabled = true;
+
+            console.log(event.target);
+
             //Add selectedBook class to current selection
             event.target.classList.add('selectedBook');
             const bookNum = this.getAttribute('data-bookNum');
@@ -184,7 +192,7 @@ Book.prototype.displayBook = function() {
             shelf3.insertBefore(bookDiv, bookAddBtn);
             bookAddBtn.remove();
         }
-
+        addToShelfBtn.disabled = true;
         return;
     }
 }
@@ -192,7 +200,7 @@ Book.prototype.displayBook = function() {
 //Add initial books to shelf
 myLibrary.forEach(function(book) {book.displayBook()});
 
-//
+//Cancels any edits
 function cancelEdit() {
     bookShelfBtn.classList.remove('bookshelfbtncurrent');
     hideForm();
@@ -202,11 +210,17 @@ function cancelEdit() {
     const allBooksNL = document.getElementsByClassName('book');
     const allBooks = Array.from(allBooksNL);
     allBooks.forEach(book => book.classList.remove('selectedBook'));
+
+    valTitle.classList.remove('invalid');
+    valAuthor.classList.remove('invalid');
+    valPages.classList.remove('invalid');
 }
 
-//
+//Creates new book
 function createNewBook() {
     showForm();
+    submitChangesBtn.disabled = true;
+    addToShelfBtn.disabled = false;
 
     //Remove selectedBook class from all books
     const allBooksNL = document.getElementsByClassName('book');
@@ -268,4 +282,37 @@ function validateInput() {
     }
 
     return invalidInput;
+}
+
+//Submit edits to book
+function editBook(event) {
+    //Prevent submit default action
+    event.preventDefault();
+
+    const allBooksNL = document.getElementsByClassName('book');
+    const thisBook = Array.from(allBooksNL).filter((book) => book.classList.contains('selectedBook'));
+
+    const bookNum = thisBook[0].getAttribute('data-bookNum');
+
+    let invalidInput = validateInput();
+
+    if (invalidInput) {
+        return;
+    }
+
+    myLibrary[bookNum].title = valTitle.value;
+    myLibrary[bookNum].author= valAuthor.value;
+    myLibrary[bookNum].pages = valPages.value;
+    myLibrary[bookNum].read = valHaveRead.checked;
+
+    //Change appearance on shelf
+    let shelfTitle = thisBook[0].querySelector('.title');
+    shelfTitle.textContent = myLibrary[bookNum].title;
+    let shelfAuthor = thisBook[0].querySelector('.author');
+    shelfAuthor.textContent = myLibrary[bookNum].author;
+
+    cardTitle.textContent = 'Select or add a book to get started';
+    hideForm();
+
+    submitChangesBtn.disabled = true;
 }

@@ -47,7 +47,6 @@ body {
     justify-items: center;
     padding: 0 4px;
     cursor: pointer;
-    transition: 0.1s;
 }
 
 .book:hover, .selectedBook {
@@ -129,8 +128,12 @@ body {
 	background-color:#408c99;
 }
 
-#addtoshelf:hover {
+#addtoshelf:hover, #submitchanges:hover {
     background:linear-gradient(to bottom, #52f307 5%, #155e02 100%);
+}
+
+#cancel:hover {
+    background:linear-gradient(to bottom, #dd1313 5%, #721802 100%);
 }
 
 #addtoshelf:active, #cancel:active, #submitchanges:active {
@@ -148,6 +151,10 @@ body {
 
 #cancel {
     grid-area: cancelbtn;
+}
+
+#addtoshelf[disabled], #addtoshelf:disabled {
+    background-color: gray;
 }
 
 #notecard {
