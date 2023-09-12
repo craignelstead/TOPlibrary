@@ -331,3 +331,8 @@ function editBook(event) {
 
 submitChangesBtn.setAttribute('disabled', 'disabled');
 addToShelfBtn.setAttribute('disabled', 'disabled');
+
+//Remove book from library
+function removeBook() {
+    
+}
