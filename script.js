@@ -150,16 +150,20 @@ Book.prototype.displayBook = function() {
             //Remove selectedBook class from all books
             const allBooksNL = document.getElementsByClassName('book');
             const allBooks = Array.from(allBooksNL);
-            allBooks.forEach(book => book.classList.remove('selectedBook'));
+            allBooks.forEach(book => {
+                if (book !== event.currentTarget) {
+                    //Remove selectedBook
+                    book.classList.remove('selectedBook');
+                }
+                else {book.classList.add('selectedBook')}
+            });
 
             //Enable submit changes button
-            submitChangesBtn.disabled = false;
-            addToShelfBtn.disabled = true;
+            submitChangesBtn.removeAttribute('disabled');
+            addToShelfBtn.setAttribute('disabled', 'disabled');
 
             console.log(event.target);
 
-            //Add selectedBook class to current selection
-            event.target.classList.add('selectedBook');
             const bookNum = this.getAttribute('data-bookNum');
 
             cardTitle.textContent = myLibrary[bookNum].title;
@@ -192,7 +196,7 @@ Book.prototype.displayBook = function() {
             shelf3.insertBefore(bookDiv, bookAddBtn);
             bookAddBtn.remove();
         }
-        addToShelfBtn.disabled = true;
+        addToShelfBtn.setAttribute('disabled', 'disabled');
         return;
     }
 }
@@ -214,13 +218,15 @@ function cancelEdit() {
     valTitle.classList.remove('invalid');
     valAuthor.classList.remove('invalid');
     valPages.classList.remove('invalid');
+
+    addToShelfBtn.setAttribute('disabled', 'disabled');
 }
 
 //Creates new book
 function createNewBook() {
     showForm();
-    submitChangesBtn.disabled = true;
-    addToShelfBtn.disabled = false;
+    submitChangesBtn.setAttribute('disabled', 'disabled');
+    addToShelfBtn.removeAttribute('disabled');
 
     //Remove selectedBook class from all books
     const allBooksNL = document.getElementsByClassName('book');
@@ -270,7 +276,7 @@ function validateInput() {
     }
 
     //Validate pages input
-    if (valPages.value.length <1) {
+    if (valPages.value < 1) {
         valPages.classList.add('invalid');
         invalidPages.classList.remove('hiddenclass');
         invalidPages.textContent = 'Page number must be greater than 0.';
@@ -292,14 +298,16 @@ function editBook(event) {
     const allBooksNL = document.getElementsByClassName('book');
     const thisBook = Array.from(allBooksNL).filter((book) => book.classList.contains('selectedBook'));
 
+    //Filtered array - only value is the book with the selectedBook class
     const bookNum = thisBook[0].getAttribute('data-bookNum');
 
+    //Data validation
     let invalidInput = validateInput();
-
     if (invalidInput) {
         return;
     }
 
+    //Update values
     myLibrary[bookNum].title = valTitle.value;
     myLibrary[bookNum].author= valAuthor.value;
     myLibrary[bookNum].pages = valPages.value;
@@ -314,5 +322,12 @@ function editBook(event) {
     cardTitle.textContent = 'Select or add a book to get started';
     hideForm();
 
-    submitChangesBtn.disabled = true;
+    submitChangesBtn.setAttribute('disabled', 'disabled');
+
+    //Remove selectedBook class from all books
+    const allBooks = Array.from(allBooksNL);
+    allBooks.forEach((book) => book.classList.remove('selectedBook'));
 }
+
+submitChangesBtn.setAttribute('disabled', 'disabled');
+addToShelfBtn.setAttribute('disabled', 'disabled');
