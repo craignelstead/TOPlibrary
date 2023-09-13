@@ -165,6 +165,9 @@ Book.prototype.displayBook = function() {
             addToShelfBtn.setAttribute('disabled', 'disabled');
             removeBtn.removeAttribute('disabled');
 
+            //Remove class from add button on shelf
+            bookShelfBtn.classList.remove('bookshelfbtncurrent');
+
             const bookNum = this.getAttribute('data-bookNum');
 
             cardTitle.textContent = myLibrary[bookNum].title;
