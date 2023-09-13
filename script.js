@@ -11,6 +11,7 @@ const addToShelfBtn = document.getElementById('addtoshelf');
 const cancelBtn = document.getElementById('cancel');
 const bookShelfBtn = document.getElementById('bookshelfbtn');
 const submitChangesBtn = document.getElementById('submitchanges');
+const removeBtn = document.getElementById('remove');
 
 //Card header
 const cardTitle = document.getElementById('notecardheadtitle');
@@ -86,6 +87,7 @@ function listenToButtons() {
     cancelBtn.addEventListener('click', cancelEdit);
     bookShelfBtn.addEventListener('click', createNewBook, false);
     submitChangesBtn.addEventListener('click', editBook, false);
+    removeBtn.addEventListener('click', removeBook, false);
 }
 
 //
@@ -158,11 +160,10 @@ Book.prototype.displayBook = function() {
                 else {book.classList.add('selectedBook')}
             });
 
-            //Enable submit changes button
+            //Enable / disable buttons
             submitChangesBtn.removeAttribute('disabled');
             addToShelfBtn.setAttribute('disabled', 'disabled');
-
-            console.log(event.target);
+            removeBtn.removeAttribute('disabled');
 
             const bookNum = this.getAttribute('data-bookNum');
 
@@ -220,6 +221,8 @@ function cancelEdit() {
     valPages.classList.remove('invalid');
 
     addToShelfBtn.setAttribute('disabled', 'disabled');
+    submitChangesBtn.setAttribute('disabled', 'disabled');
+    removeBtn.setAttribute('disabled', 'disabled');
 }
 
 //Creates new book
@@ -227,6 +230,7 @@ function createNewBook() {
     showForm();
     submitChangesBtn.setAttribute('disabled', 'disabled');
     addToShelfBtn.removeAttribute('disabled');
+    removeBtn.setAttribute('disabled', 'disabled');
 
     //Remove selectedBook class from all books
     const allBooksNL = document.getElementsByClassName('book');
@@ -285,6 +289,7 @@ function validateInput() {
     else {
         valPages.classList.remove('invalid');
         invalidPages.classList.add('hiddenclass');
+        valPages.value = Math.round(valPages.value);
     }
 
     return invalidInput;
@@ -324,6 +329,7 @@ function editBook(event) {
 
     submitChangesBtn.setAttribute('disabled', 'disabled');
 
+
     //Remove selectedBook class from all books
     const allBooks = Array.from(allBooksNL);
     allBooks.forEach((book) => book.classList.remove('selectedBook'));
@@ -333,6 +339,40 @@ submitChangesBtn.setAttribute('disabled', 'disabled');
 addToShelfBtn.setAttribute('disabled', 'disabled');
 
 //Remove book from library
-function removeBook() {
-    
+function removeBook(event) {
+    //Prevent submit default action
+    event.preventDefault();
+
+    //Blank form and change card header
+    hideForm();
+    cardTitle.textContent = 'Select or add a book to get started';
+
+    //Get all books, then filter to currently selected book
+    const allBooksNL = document.getElementsByClassName('book');
+    const allBooks = Array.from(allBooksNL);
+    const deleteBook = Array.from(allBooksNL).filter((book) => book.classList.contains('selectedBook'));
+    //Filtered array - only value is the book with the selectedBook class
+    const bookNum = deleteBook[0].getAttribute('data-bookNum');
+
+    let libCount = allBooks.length;
+
+    //Remove selectedBook class from each book
+    // allBooks.forEach(book => book.classList.remove('selectedBook'));
+
+    // myLibrary.splice(myLibrary[bookNum], 1);
+
+    for (let i = 0; i < libCount; i++) {;
+        //If book to be deleted, remove from array
+        if (bookNum == i) {
+            myLibrary.splice(bookNum, 1);
+        }
+        //Remove all books from DOM to be re added later
+        allBooks[i].remove();
+    }
+
+    //Re add bookAddBtn
+    shelf1.appendChild(bookAddBtn);
+
+    //Re add all books to shelf
+    myLibrary.forEach(function(book) {book.displayBook()});
 }

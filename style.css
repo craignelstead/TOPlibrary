@@ -159,7 +159,7 @@ body {
     justify-self: center;
 }
 
-#addtoshelf[disabled], #addtoshelf:disabled, #submitchanges[disabled] {
+#addtoshelf[disabled], #submitchanges[disabled], #remove[disabled] {
     background: inherit;
     background-color: gray;
 }
