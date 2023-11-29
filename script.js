@@ -63,24 +63,36 @@ function hideForm() {
 }
 
 //REPLACE CONSTRUCTOR WITH CLASS
-//***********************************************************************
+//************************************************************************************************************
 //Constructor for book
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+// function Book(title, author, pages, read) {
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read;
 
-    myLibrary.push(this);
+//     myLibrary.push(this);
+// }
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    addThisBook() {
+        myLibrary.push(this);
+    }
 }
 
 //Default books on shelf
-const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', 295, true);
-const book2 = new Book('1984', 'George Orwell', 328, true);
-const book3 = new Book('Life of Pi', 'Yann Martel', 352, false);
-const book4 = new Book('The Help', 'Kathryn Stockett', 524, false);
-const book5 = new Book('The Street', 'Ann Petry', 435, false);
-const book6 = new Book('The Sweetness of Water', 'Nathan Harris', 368, false);
+const book1 = new Book('The Hobbit', 'J.R.R. Tolkien', 295, true); book1.addThisBook();
+const book2 = new Book('1984', 'George Orwell', 328, true); book2.addThisBook();
+const book3 = new Book('Life of Pi', 'Yann Martel', 352, false); book3.addThisBook();
+const book4 = new Book('The Help', 'Kathryn Stockett', 524, false); book4.addThisBook();
+const book5 = new Book('The Street', 'Ann Petry', 435, false); book5.addThisBook();
+const book6 = new Book('The Sweetness of Water', 'Nathan Harris', 368, false); book6.addThisBook();
 
 listenToButtons();
 //Add event listeners
@@ -109,6 +121,7 @@ function addBookToLibrary(event) {
     const newBook = new Book(valTitle.value, valAuthor.value, valPages.value, 
         valHaveRead.checked);
 
+    newBook.addThisBook();
     newBook.displayBook();
 
     cardTitle.textContent = 'Select or add a book to get started';
@@ -123,8 +136,9 @@ function addBookToLibrary(event) {
 }
 
 //REPLACE PROTOTYPE WITH CLASS?
-//***********************************************************************
+//********************************************************************************************************
 Book.prototype.displayBook = function() {
+//class displayBook extends Book {
     for (let i = 0; i < myLibrary.length; i++) {
         //Get current books
         const booksOnShelfNL = document.getElementsByClassName('book');
