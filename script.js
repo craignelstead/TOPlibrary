@@ -62,6 +62,8 @@ function hideForm() {
     invalidPages.classList.add('hiddenclass');
 }
 
+//REPLACE CONSTRUCTOR WITH CLASS
+//***********************************************************************
 //Constructor for book
 function Book(title, author, pages, read) {
     this.title = title;
@@ -120,6 +122,8 @@ function addBookToLibrary(event) {
     hideForm();
 }
 
+//REPLACE PROTOTYPE WITH CLASS?
+//***********************************************************************
 Book.prototype.displayBook = function() {
     for (let i = 0; i < myLibrary.length; i++) {
         //Get current books
